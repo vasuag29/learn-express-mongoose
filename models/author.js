@@ -28,8 +28,19 @@ AuthorSchema
 });
 
 // Virtual for author's lifespan
+// AuthorSchema.virtual('lifespan').get(function() {
+//   return `${this.date_of_birth.getFullYear()} - ${this.date_of_death.getFullYear() ?? ''}`;
+// });
+
 AuthorSchema.virtual('lifespan').get(function() {
-  return `${this.date_of_birth.getFullYear()} - ${this.date_of_death.getFullYear() ?? ''}`;
+  var lifespan = '';
+  if (this.date_of_birth && this.date_of_death) {
+    lifespan = this.date_of_birth.getFullYear() + ' - ' + this.date_of_death.getFullYear();
+  }
+  if (this.date_of_birth && !this.date_of_death) {
+    lifespan = this.date_of_birth.getFullYear() + ' - ';
+  }
+  return lifespan;
 });
 
 //Export model
